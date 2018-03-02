@@ -1,0 +1,16 @@
+body {
+  padding: 10px 15px;
+}
+
+main.mx-auto {
+  width: 600px;
+}
+
+.github-user .user-thumbnail {
+  width: 200px;
+}
+
+.github-user .user-thumbnail img {
+  width: 200px;
+  height: 200px;
+}

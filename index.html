@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Github Search</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="app.css" />
+ </head>
+ <body ng-app="github-search">
+   <main ng-controller="SearchController" class="mx-auto">
+     <header>
+       <h2>{{title}}<h2>
+     </header>
+     <section>
+       <div class="container search-container">
+         <div class="row input-group">
+           <input
+            type="text"
+            class="form-control"
+            ng-model="searchTerm"
+            placeholder="Search Github Users..."
+            ng-keydown="handleKey($event)"
+            autofocus>
+           <button type="button" class="btn btn-primary" ng-click="search()">Search</button>
+         </div>
+         <div ng-if="user" class="row">
+           <github-user user="user" class="w-100"></github-user>
+         </div>
+         <div ng-if="notFound" class="row">
+           <div class="mt-3 w-100">
+             User <strong>{{notFoundTerm}}</strong> not found!
+           </div>
+         </div>
+       </div>
+     </section>
+   </main>
+ </body>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js"></script>
+ <script src="app.js"></script>
+ <script src="search/search.service.js"></script>
+ <script src="search/search.controller.js"></script>
+ <script src="user/user.directive.js"></script>
+</html>

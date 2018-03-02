@@ -1,0 +1,34 @@
+<div class="github-user border mt-3">
+  <div class="row">
+    <div class="col-sm-5 user-thumbnail">
+      <img ng-src="{{user.avatar_url}}" class="border">
+      <div class="d-flex justify-content-center py-3">
+        <a ng-href="{{user.html_url}}" target="_blank">{{user.login}}</a>
+      </div>
+    </div>
+    <div class="col-sm-7 user-lists d-flex flex-column justify-content-around">
+      <div class="repos-list mb-1">
+        <header>
+          <h6>{{user.login}}'s Repositories</h6>
+        </header>
+        <div ng-repeat="repo in repos">
+          <a ng-href="{{repo.html_url}}" target="_blank">{{repo.name}}</a>
+        </div>
+        <div ng-if="!repos.length">
+          No repos found <span ng-if="repoError">(Error: {{repoError}})</span>
+        </div>
+      </div>
+      <div class="gists-list pt-3" ng-class="{'border-top': repos.length > 6}">
+        <header>
+          <h6>{{user.login}}'s Gists</h6>
+        </header>
+        <div ng-repeat="gist in gists">
+          I am here
+        </div>
+        <div ng-if="!gists.length">
+          No gists found <span ng-if="gistError">(Error: {{gistError}})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
