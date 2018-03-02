@@ -23,7 +23,7 @@
           <h6>{{user.login}}'s Gists</h6>
         </header>
         <div ng-repeat="gist in gists">
-          I am here
+          <a ng-href="{{gist.html_url}}" target="_blank">{{gist.id}}</a>
         </div>
         <div ng-if="!gists.length">
           No gists found <span ng-if="gistError">(Error: {{gistError}})</span>
