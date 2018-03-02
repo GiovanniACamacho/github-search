@@ -10,28 +10,29 @@
             user: '='
           },
           link: function(scope) {
+            // TODO: Might use async/await for giggles!
             // Repos
             SearchService.fetchRepos(scope.user.repos_url)
-              .then(function(resp) {
-                scope.repos = resp.data;
-              }, function(err) {
-                scope.repos = [];
-                scope.repoError = err.statusText;
-              });
+              .then(resp => scope.repos = resp.data,
+                err => {
+                  scope.repos = [];
+                  scope.repoError = err.statusText;
+                }
+              );
 
             // Gists
-            SearchService.fetchGists(scope.user.gists_url)
-              .then(function(resp) {
-                scope.gists = resp.data;
-              }, function(err) {
-                scope.gists = [];
-                scope.gistError = err.statusText;
-              });
+            SearchService.fetchGists(scope.user.login)
+              .then(resp => scope.gists = resp.data,
+                err => {
+                  scope.gists = [];
+                  scope.gistError = err.statusText;
+                }
+              );
 
             /**
              * Open a new tab to the user's Github page
              */
-            scope.userHome = function() {
+            scope.userHome = () => {
               $window.open(scope.user.html_url, '_blank');
             };
           }

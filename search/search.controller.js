@@ -3,20 +3,19 @@
 
   angular.module('github-search')
     .controller('SearchController', ['$scope', 'SearchService', function($scope, SearchService) {
-        $scope.title = 'Github Search';
-        $scope.searchTerm = 'google';
+        $scope.title = 'DiscoverOrg\'s Github Search';
 
         /**
          * Main search function
          */
-        $scope.search = function() {
+        $scope.search = () => {
            $scope.user = null;
            SearchService.search($scope.searchTerm)
-            .then(function(resp) {
+            .then((resp) => {
               if (resp.data.total_count > 0) {
-                var user = resp.data.items.find(function(item) {
-                  return item.login.toLowerCase().startsWith($scope.searchTerm.toLowerCase());
-                });
+                let user = resp.data.items.find(item =>
+                   item.login.toLowerCase().startsWith($scope.searchTerm.toLowerCase())
+                );
                 if (!user) {
                   user = resp.data.items[0];
                 }
@@ -27,7 +26,7 @@
                 $scope.notFound = true;
                 $scope.notFoundTerm = $scope.searchTerm;
               }
-            }, function(err) {
+            }, (err) => {
               $scope.err = err;
               $scope.user = null;
             });
@@ -36,7 +35,7 @@
         /**
          * Run the search when the user presses "Enter"
          */
-        $scope.handleKey = function(event) {
+        $scope.handleKey = (event) => {
           if (event.keyCode === 13) {
             $scope.search();
           }

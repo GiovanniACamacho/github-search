@@ -5,14 +5,15 @@
     .service('SearchService', ['$http', function($http) {
 
       // Local variables
-      var searchUrl = "https://api.github.com/search/users?q=";
+      const searchUrl = "https://api.github.com/search/users?q=";
+      const userUrl = 'https://api.github.com/users';
 
       /**
        * Perform a ajax call to search github users
        * @param {string} searchTerm
        * @returns Promise
        */
-      function search(searchTerm) {
+      function search(searchTerm = '') {
         if (searchTerm) {
           return $http.get(searchUrl + searchTerm);
         }
@@ -29,11 +30,11 @@
 
       /**
        * Peform a ajax call to fetch the user's gists
-       * @param {string} gistUrl
+       * @param {string} login
        * @returns Promise
        */
-      function fetchGists(gistUrl) {
-        return $http.get(gistUrl);
+      function fetchGists(login) {
+        return $http.get(`${userUrl}/${login}/gists`);
       }
 
 
