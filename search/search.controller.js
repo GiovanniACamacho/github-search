@@ -3,8 +3,7 @@
 
   angular.module('github-search')
     .controller('SearchController', ['$scope', 'SearchService', function($scope, SearchService) {
-        $scope.title = 'Github Search';
-        $scope.searchTerm = 'google';
+        $scope.title = 'DiscoverOrg\'s Github Search';
 
         /**
          * Main search function

@@ -20,7 +20,7 @@
               });
 
             // Gists
-            SearchService.fetchGists(scope.user.gists_url)
+            SearchService.fetchGists(scope.user.login)
               .then(function(resp) {
                 scope.gists = resp.data;
               }, function(err) {
