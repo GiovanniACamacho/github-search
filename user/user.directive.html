@@ -1,7 +1,7 @@
 <div class="github-user border mt-3">
   <div class="row">
     <div class="col-sm-5 user-thumbnail">
-      <img ng-src="{{user.avatar_url}}" class="border">
+      <img ng-src="{{user.avatar_url}}" class="border" ng-click="userHome()">
       <div class="d-flex justify-content-center py-3">
         <a ng-href="{{user.html_url}}" target="_blank">{{user.login}}</a>
       </div>

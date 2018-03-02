@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('github-search')
-    .directive('githubUser', ['SearchService', function(SearchService) {
+    .directive('githubUser', ['$window', 'SearchService', function($window, SearchService) {
         return {
           restrict: 'E',
           templateUrl: 'user/user.directive.html',
@@ -27,6 +27,13 @@
                 scope.gists = [];
                 scope.gistError = err.statusText;
               });
+
+            /**
+             * Open a new tab to the user's Github page
+             */
+            scope.userHome = function() {
+              $window.open(scope.user.html_url, '_blank');
+            };
           }
         }
     }]
