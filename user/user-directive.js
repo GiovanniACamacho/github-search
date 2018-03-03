@@ -5,7 +5,7 @@
     .directive('githubUser', ['$window', 'SearchService', function($window, SearchService) {
         return {
           restrict: 'E',
-          templateUrl: 'user/user.directive.html',
+          templateUrl: 'user/user-directive.html',
           scope: {
             user: '='
           },
