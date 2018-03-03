@@ -19,6 +19,7 @@ module.exports = function(config) {
       'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular-mocks.js',
       'app.js',
       'user/*.js',
+      'user/*.html',
       'search/*.js',
       'test/**/*.spec.js'
     ],
@@ -32,8 +33,12 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'user/*.html': ['ng-html2js']
     },
 
+    ngHtml2JsPreprocessor: {
+      moduleName: 'templates'
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
