@@ -1,14 +1,14 @@
 'use strict';
 
-describe('SearchController', function() {
+describe('SearchController', () => {
   
-  var $scope;
-  var deferred;
-  var service;
+  let $scope;
+  let deferred;
+  let service;
 
   beforeEach(module('github-search'));
 
-  beforeEach(inject(function($controller, _$rootScope_, _$q_, _SearchService_) {
+  beforeEach(inject(($controller, _$rootScope_, _$q_, _SearchService_) => {
     $scope = _$rootScope_.$new();
     deferred = _$q_.defer();
 
@@ -21,15 +21,11 @@ describe('SearchController', function() {
     });
   }));
 
-  it('should have a title', function() {
-    expect($scope.title).toContain('Github Search');
-  });
+  it('should have a title', () => expect($scope.title).toContain('Github Search'));
 
-  it('should have a search() defined', function() {
-    expect($scope.search).toBeDefined();
-  });
+  it('should have a search() defined', () => expect($scope.search).toBeDefined());
 
-  it('should run a valid search', function() {
+  it('should run a valid search', () => {
     $scope.searchTerm = 'foo';
 
     // Resolve the search
@@ -51,7 +47,7 @@ describe('SearchController', function() {
     expect($scope.user.login).toBe('foo');
   });
 
-  it('should know when no matches were found', function() {
+  it('should know when no matches were found', () => {
     // Resolve the search
     deferred.resolve({
       data: {
@@ -68,8 +64,8 @@ describe('SearchController', function() {
     expect($scope.err).not.toBeDefined();
   });
 
-  it('should handle a rejection', function() {
-    var errorMsg = 'random error';
+  it('should handle a rejection', () => {
+    const errorMsg = 'random error';
     deferred.reject(errorMsg);
  
     $scope.search();
@@ -79,8 +75,8 @@ describe('SearchController', function() {
     expect($scope.err).toEqual(errorMsg);
   });
 
-  it('should run a search when hitting the Enter key', function() {
-    var ev = {
+  it('should run a search when hitting the Enter key', () => {
+    const ev = {
       keyCode: 13 // 'Enter'
     };
 
@@ -89,8 +85,8 @@ describe('SearchController', function() {
     expect($scope.search).toHaveBeenCalled();
   });
 
-  it('should not run a search when hitting any other key', function() {
-    var ev = {
+  it('should not run a search when hitting any other key', () => {
+    const ev = {
       keyCode: 23 // Not 'Enter'
     };
 
@@ -99,7 +95,7 @@ describe('SearchController', function() {
     expect($scope.search).not.toHaveBeenCalled();
   });
 
-  it('should pick the best match', function() {
+  it('should pick the best match', () => {
     $scope.searchTerm = 'foo';
 
     // Resolve the search
@@ -122,7 +118,7 @@ describe('SearchController', function() {
     expect($scope.user.login).toBe('foodelicious');
   });
 
-  it('should pick the first match if no good matches are found', function() {
+  it('should pick the first match if no good matches are found', () => {
     $scope.searchTerm = 'foo';
 
     // Resolve the search
