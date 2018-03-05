@@ -29,43 +29,61 @@ describe('SearchController', function() {
     expect($scope.search).toBeDefined();
   });
 
-  it('should run a valid search', function() {
-    $scope.searchTerm = 'foo';
+  describe('Valid search', function() {
+    beforeEach(function() {
+      $scope.searchTerm = 'foo';
 
-    // Resolve the search
-    deferred.resolve({
-      data: {
-        total_count: 1,
-        items: [{
-          login: 'foo'
-        }]
-      }
-    });
+      // Resolve the search
+      deferred.resolve({
+        data: {
+          total_count: 1,
+          items: [{
+            login: 'foo'
+          }]
+        }
+      });
  
-    $scope.search();
-    $scope.$apply();
+      $scope.search();
+      $scope.$apply();
+    });
 
-    expect($scope.user).toBeDefined();
-    expect($scope.notFound).toBe(false);
-    expect($scope.err).not.toBeDefined();
-    expect($scope.user.login).toBe('foo');
+    it('should have a user defined', function() {
+      expect($scope.user).toBeDefined();
+    });
+    it('should be found', function() {
+      expect($scope.notFound).toBe(false);
+    });
+    it('should not have an error', function() {
+      expect($scope.err).not.toBeDefined();
+    });
+    it('should have the right login', function() {
+      expect($scope.user.login).toBe('foo');
+    });
   });
 
-  it('should know when no matches were found', function() {
-    // Resolve the search
-    deferred.resolve({
-      data: {
-        total_count: 0,
-        items: []
-      }
-    });
+  describe('No matches', function() {
+    beforeEach(function() {
+      // Resolve the search
+      deferred.resolve({
+        data: {
+          total_count: 0,
+          items: []
+        }
+      });
  
-    $scope.search();
-    $scope.$apply();
+      $scope.search();
+      $scope.$apply();
+    });
 
-    expect($scope.user).toBe(null);
-    expect($scope.notFound).toBe(true);
-    expect($scope.err).not.toBeDefined();
+    it('should have no user', function() {
+      expect($scope.user).toBe(null);
+    });
+    it('should have the notFound flag', function() {
+      expect($scope.notFound).toBe(true);
+    });
+    it('should not have an error', function() {
+      expect($scope.err).not.toBeDefined();
+    });
   });
 
   it('should handle a rejection', function() {
