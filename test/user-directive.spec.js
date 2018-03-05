@@ -54,67 +54,99 @@ describe('github-user', () => {
     expect(service.fetchGists).toHaveBeenCalled();
   });
 
-  it('should render the repos', () => {
-    reposDeferred.resolve({
-      data: [{
-        name: 'repo1',
-        html_url: 'repo1Url'
-      }, {
-        name: 'repo2',
-        html_url: 'repo2Url'
-      }, {
-        name: 'repo3',
-        html_url: 'repo3Url'
-      }]
-     });
-    $scope.$apply();
-    expect(isolatedScope.repos.length).toEqual(3);
-
-    const items = element[0].querySelector('.repos-list').querySelectorAll('div');
-    expect(items.length).toEqual(3);
-    expect(items[1].querySelector('a').innerHTML).toEqual('repo2');
-  });
-
-  it('should display a message if no repos are found', () => {
-    reposDeferred.reject({statusText: 'Error'});
-    $scope.$apply();
-    expect(isolatedScope.repos.length).toEqual(0);
-    expect(isolatedScope.repoError).toEqual('Error');
-    expect(element[0].querySelector('.repos-list').querySelector('div').innerHTML).toContain('No repos found');    
-  });
-
-  it('should display a message if no gists are found', () => {
-    gistsDeferred.resolve({
-      data: []
+  describe('render the repos', () => {
+    beforeEach(() => {
+      reposDeferred.resolve({
+        data: [{
+          name: 'repo1',
+          html_url: 'repo1Url'
+        }, {
+          name: 'repo2',
+          html_url: 'repo2Url'
+        }, {
+          name: 'repo3',
+          html_url: 'repo3Url'
+        }]
+       });
+      $scope.$apply();
     });
-    $scope.$apply();
-    expect(isolatedScope.gists.length).toEqual(0);
-    expect(isolatedScope.gistError).not.toBeDefined();
-    expect(element[0].querySelector('.gists-list').querySelector('div').innerHTML).toContain('No gists found');    
+    it('should have the items in the model', () =>
+      expect(isolatedScope.repos.length).toEqual(3)
+    );
+    it('should render the items in a list', () => {
+      const items = element[0].querySelector('.repos-list').querySelectorAll('div');
+      expect(items.length).toEqual(3);
+    });
+    it('should have the right label', () => {
+      const items = element[0].querySelector('.repos-list').querySelectorAll('div');
+      expect(items[1].querySelector('a').innerHTML).toEqual('repo2');
+    });
   });
 
-  it('should render the gists', () => {
-    gistsDeferred.resolve({
-      data: [{
-        id: 'gist1',
-        html_url: 'gist1Url'
-      }, {
-        id: 'gist2',
-        html_url: 'gist2Url'
-      }, {
-        id: 'gist3',
-        html_url: 'gist3Url'
-      }, {
-        id: 'gist4',
-        html_url: 'gist4Url'
-      }]
-     });
-    $scope.$apply();
-    expect(isolatedScope.gists.length).toEqual(4);
+  describe('No repos', () => {
+    beforeEach(() => {
+      reposDeferred.reject({statusText: 'Error'});
+      $scope.$apply();
+    });
+    it('should have no repos in the model', () =>
+      expect(isolatedScope.repos.length).toEqual(0)
+    );
+    it('should have an error', () =>
+      expect(isolatedScope.repoError).toEqual('Error')
+    );
+    it('should display a message', () => 
+      expect(element[0].querySelector('.repos-list').querySelector('div').innerHTML).toContain('No repos found')
+    );
+  });
 
-    const items = element[0].querySelector('.gists-list').querySelectorAll('div');
-    expect(items.length).toEqual(4);
-    expect(items[3].querySelector('a').innerHTML).toEqual('gist4');
+  describe('No gists', () => {
+    beforeEach(() => {
+      gistsDeferred.resolve({
+        data: []
+      });
+      $scope.$apply();
+    });
+    it('should have no gists in the model', () =>
+      expect(isolatedScope.gists.length).toEqual(0)
+    );
+    it('should have no error', () =>
+      expect(isolatedScope.gistError).not.toBeDefined()
+    );
+    it('should display a message', () => 
+      expect(element[0].querySelector('.gists-list').querySelector('div').innerHTML).toContain('No gists found')    
+    );
+  });
+
+  describe('render the gists', () => {
+    beforeEach(() => {
+      gistsDeferred.resolve({
+        data: [{
+          id: 'gist1',
+          html_url: 'gist1Url'
+        }, {
+          id: 'gist2',
+          html_url: 'gist2Url'
+        }, {
+          id: 'gist3',
+          html_url: 'gist3Url'
+        }, {
+          id: 'gist4',
+          html_url: 'gist4Url'
+        }]
+      });
+      $scope.$apply();
+    });
+    it('should have the items in the model', () =>
+      expect(isolatedScope.gists.length).toEqual(4)
+    );
+    it('should render the items in a list', () => {
+      const items = element[0].querySelector('.gists-list').querySelectorAll('div');
+      expect(items.length).toEqual(4);
+    });
+    it('should have the right label', () => {
+      const items = element[0].querySelector('.gists-list').querySelectorAll('div');
+      expect(items[3].querySelector('a').innerHTML).toEqual('gist4');
+    });
   });
 
   it('should open the users github page on a new tab', () => {

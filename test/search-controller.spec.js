@@ -21,58 +21,85 @@ describe('SearchController', () => {
     });
   }));
 
-  it('should have a title', () => expect($scope.title).toContain('Github Search'));
+  it('should have a title', () =>
+    expect($scope.title).toContain('Github Search')
+  );
 
-  it('should have a search() defined', () => expect($scope.search).toBeDefined());
+  it('should have a search() defined', () => 
+    expect($scope.search).toBeDefined()
+  );
 
-  it('should run a valid search', () => {
-    $scope.searchTerm = 'foo';
+  describe('valid search', () => {
+    beforeEach(() => {
+      $scope.searchTerm = 'foo';
 
-    // Resolve the search
-    deferred.resolve({
-      data: {
-        total_count: 1,
-        items: [{
-          login: 'foo'
-        }]
-      }
-    });
+      // Resolve the search
+      deferred.resolve({
+        data: {
+          total_count: 1,
+          items: [{
+            login: 'foo'
+          }]
+        }
+      });
  
-    $scope.search();
-    $scope.$apply();
+      $scope.search();
+      $scope.$apply();
+    });
 
-    expect($scope.user).toBeDefined();
-    expect($scope.notFound).toBe(false);
-    expect($scope.err).not.toBeDefined();
-    expect($scope.user.login).toBe('foo');
+    it('should have a user defined', () => 
+      expect($scope.user).toBeDefined()
+    );
+    it('should not have the notFound set', () =>
+      expect($scope.notFound).toBe(false)
+    );
+    it('should not have an error', () =>
+      expect($scope.err).not.toBeDefined()
+    );
+    it('should have the right login', () =>
+      expect($scope.user.login).toBe('foo')
+    );
   });
 
-  it('should know when no matches were found', () => {
-    // Resolve the search
-    deferred.resolve({
-      data: {
-        total_count: 0,
-        items: []
-      }
-    });
+  describe('no matches found', () => {
+    beforeEach(() => {
+      // Resolve the search
+      deferred.resolve({
+        data: {
+          total_count: 0,
+          items: []
+        }
+      });
  
-    $scope.search();
-    $scope.$apply();
-
-    expect($scope.user).toBe(null);
-    expect($scope.notFound).toBe(true);
-    expect($scope.err).not.toBeDefined();
+      $scope.search();
+      $scope.$apply();
+    });
+    it('should not have a user', () =>
+      expect($scope.user).toBe(null)
+    );
+    it('should have the notFound flag set', () =>
+      expect($scope.notFound).toBe(true)
+    );
+    it('should not have an error', () =>
+      expect($scope.err).not.toBeDefined()
+    );
   });
 
-  it('should handle a rejection', () => {
-    const errorMsg = 'random error';
-    deferred.reject(errorMsg);
+  describe('a rejection', () => {
+    let errorMsg;
+    beforeEach(() => {
+      errorMsg = 'random error';
+      deferred.reject(errorMsg);
  
-    $scope.search();
-    $scope.$apply();
-
-    expect($scope.user).toBe(null);
-    expect($scope.err).toEqual(errorMsg);
+      $scope.search();
+      $scope.$apply();
+    });
+    it('should not have a user', () =>
+      expect($scope.user).toBe(null)
+    );
+    it('should have an error', () =>
+      expect($scope.err).toEqual(errorMsg)
+    );
   });
 
   it('should run a search when hitting the Enter key', () => {
