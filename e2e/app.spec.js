@@ -4,14 +4,26 @@ describe('Github Search - E2E', function() {
    browser.get('/index.html');
   });
 
-  it('should search onEnter', function() {
-    var input = element(by.model('searchTerm'));
-    input.sendKeys('google', protractor.Key.ENTER);
-    var user = element(by.css('.github-user'));
-    expect(user.isPresent()).toBe(true); 
+  describe('search', function() {
+    var user;
+    var input;
+
+    beforeEach(function() {
+      input = element(by.model('searchTerm'));
+      input.sendKeys('google', protractor.Key.ENTER);
+      user = element(by.css('.github-user'));
+    });
+    it('should search onEnter', function() {
+      expect(user.isPresent()).toBe(true); 
+    });
+    it('should clear the user section onInput', function() {
+      input.clear();
+      input.sendKeys(protractor.Key.ENTER);
+      expect(user.isPresent()).not.toBe(true); 
+    });
   });
 
-  describe('user repos', function() {
+  describe('repos', function() {
     var repos;
     beforeEach(function() {
       var input = element(by.model('searchTerm'));
@@ -32,7 +44,7 @@ describe('Github Search - E2E', function() {
     });
   });
 
-  describe('user gists', function() {
+  describe('gists', function() {
     var gists;
     beforeEach(function() {
       var input = element(by.model('searchTerm'));
@@ -58,7 +70,7 @@ describe('Github Search - E2E', function() {
     beforeEach(function() {
       var input = element(by.model('searchTerm'));
       input.sendKeys('google', protractor.Key.ENTER);
-      gists = element(by.css('.repos-list'));
+      gists = element(by.css('.gists-list'));
     });
     it('should display a message', function() {
       var div = gists.$$('div');
