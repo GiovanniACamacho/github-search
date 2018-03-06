@@ -35,7 +35,7 @@ describe('Github Search - E2E', function() {
     });
     it('should be populated with data', function() {
       var items = repos.$$('div');
-      expect(items.count()).toBeGreaterThan(0);
+      expect(items.count()).toBeGreaterThan(1);
     });
     it('should linkable', function() {
       var item = repos.$$('div').get(0);
@@ -48,7 +48,7 @@ describe('Github Search - E2E', function() {
     var gists;
     beforeEach(function() {
       var input = element(by.model('searchTerm'));
-      input.sendKeys('xtea', protractor.Key.ENTER);
+      input.sendKeys('kilosilveira', protractor.Key.ENTER);
       gists = element(by.css('.gists-list'));
     });
     it('should be visible', function() {
@@ -56,7 +56,7 @@ describe('Github Search - E2E', function() {
     });
     it('should be populated with data', function() {
       var items = gists.$$('div');
-      expect(items.count()).toBeGreaterThan(0);
+      expect(items.count()).toBeGreaterThan(1);
     });
     it('should linkable', function() {
       var item = gists.$$('div').get(0);
