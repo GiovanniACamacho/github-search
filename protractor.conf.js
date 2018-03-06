@@ -5,7 +5,14 @@ exports.config = {
   baseUrl: 'file:///' + __dirname,
   capabilities: {
     browserName: 'chrome',
-    args: ['allow-file-access-from-files']
+    chromeOptions: {
+      args: [
+        'allow-file-access-from-files',
+        '--headless',
+        '--disable-gpu',
+        '--window-size=800,600'
+      ]
+    }
   },
   onPrepare: function() {
     browser.resetUrl = 'file://';
