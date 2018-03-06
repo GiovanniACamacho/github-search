@@ -53,4 +53,17 @@ describe('Github Search - E2E', function() {
     });
   });
 
+  describe('no gists', function() {
+    var gists;
+    beforeEach(function() {
+      var input = element(by.model('searchTerm'));
+      input.sendKeys('google', protractor.Key.ENTER);
+      gists = element(by.css('.repos-list'));
+    });
+    it('should display a message', function() {
+      var div = gists.$$('div');
+      expect(div.getText()).toMatch(/No gists found/);
+    });
+  });
+
 });
